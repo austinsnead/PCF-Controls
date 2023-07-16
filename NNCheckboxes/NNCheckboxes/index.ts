@@ -32,8 +32,8 @@ export class NNCheckboxes implements ComponentFramework.StandardControl<IInputs,
 	private _colors: any;
 	private _relationshipInfo: RelationshipInfo;
 	private _currentControlClassName: string;
-	private _OutputTextColumn: string | null;
-	private _NNTableName: string | null;
+	private _OutputTextColumn: string;
+	private _NNTableName: string;
 	/**
 	 * Empty constructor.
 	 */
@@ -546,7 +546,8 @@ export class NNCheckboxes implements ComponentFramework.StandardControl<IInputs,
 												// @ts-ignore
 												function (result) {
 													console.log("NNCheckboxes: records were successfully associated");
-													const fetchXml = `?fetchXml=<fetch>
+													if (!thisCtrl._NNTableName) {
+														const fetchXml = `?fetchXml=<fetch>
 													<entity name="${thisCtrl._NNTableName}">
 													  <attribute name="${thisCtrl._NNTableName}id" />  
 													  <filter>
@@ -558,38 +559,39 @@ export class NNCheckboxes implements ComponentFramework.StandardControl<IInputs,
 													  </link-entity>
 													</entity>
 												  </fetch>`;
-													// @ts-ignore
-													thisCtrl._context.webAPI.retrieveMultipleRecords(thisCtrl._NNTableName, fetchXml).then(
 														// @ts-ignore
-														function (results) {
-															let associatedArray = [];
-															for (let i = 0; i < results.entities.length; i++) {
-																let result = results.entities[i];
-																let competitorname = result["aLink.name"];
-																associatedArray.push(competitorname);
-															}
-															let final = associatedArray.join(', ')
-															let outputcol = thisCtrl._OutputTextColumn
-															let stringForTextBox = {}
+														thisCtrl._context.webAPI.retrieveMultipleRecords(thisCtrl._NNTableName, fetchXml).then(
 															// @ts-ignore
-															stringForTextBox[outputcol] = associatedArray.join(', ')
-															thisCtrl._context.webAPI.updateRecord(entity1name, record1Id, stringForTextBox).then(
-																function success(result) {
-																	console.log("Account updated");
-																	// perform operations on record update
-																},
-																function (error) {
-																	console.log(error.message);
-																	// handle error conditions
+															function (results) {
+																let associatedArray = [];
+																for (let i = 0; i < results.entities.length; i++) {
+																	let result = results.entities[i];
+																	let competitorname = result["aLink.name"];
+																	associatedArray.push(competitorname);
 																}
-															);
-															console.log(associatedArray)
-														},
-														// @ts-ignore
-														function (error) {
-															thisCtrl.DisplayError(error, thisCtrl._context.resources.getString("Error Populating Text Column"));
-														});
-													console.log(fetchXml)
+																let final = associatedArray.join(', ')
+																let outputcol = thisCtrl._OutputTextColumn
+																let stringForTextBox = {}
+																// @ts-ignore
+																stringForTextBox[outputcol] = associatedArray.join(', ')
+																thisCtrl._context.webAPI.updateRecord(entity1name, record1Id, stringForTextBox).then(
+																	function success(result) {
+																		console.log("Account updated");
+																		// perform operations on record update
+																	},
+																	function (error) {
+																		console.log(error.message);
+																		// handle error conditions
+																	}
+																);
+																console.log(associatedArray)
+															},
+															// @ts-ignore
+															function (error) {
+																thisCtrl.DisplayError(error, thisCtrl._context.resources.getString("Error Populating Text Column"));
+															});
+														console.log(fetchXml)
+													}
 												},
 												// @ts-ignore
 												function (error) {
@@ -630,7 +632,8 @@ export class NNCheckboxes implements ComponentFramework.StandardControl<IInputs,
 											.then(
 												// @ts-ignore
 												function (result) {
-													const fetchXml = `?fetchXml=<fetch>
+													if (!thisCtrl._NNTableName) {
+														const fetchXml = `?fetchXml=<fetch>
 													<entity name="${thisCtrl._NNTableName}">
 													  <attribute name="${thisCtrl._NNTableName}id" />  
 													  <filter>
@@ -642,38 +645,39 @@ export class NNCheckboxes implements ComponentFramework.StandardControl<IInputs,
 													  </link-entity>
 													</entity>
 												  </fetch>`;
-													// @ts-ignore
-													thisCtrl._context.webAPI.retrieveMultipleRecords(thisCtrl._NNTableName, fetchXml).then(
 														// @ts-ignore
-														function (results) {
-															let associatedArray = [];
-															for (let i = 0; i < results.entities.length; i++) {
-																let result = results.entities[i];
-																let competitorname = result["aLink.name"];
-																associatedArray.push(competitorname);
-															}
-															let final = associatedArray.join(', ')
-															let outputcol = thisCtrl._OutputTextColumn
-															let stringForTextBox = {}
+														thisCtrl._context.webAPI.retrieveMultipleRecords(thisCtrl._NNTableName, fetchXml).then(
 															// @ts-ignore
-															stringForTextBox[outputcol] = associatedArray.join(', ')
-															thisCtrl._context.webAPI.updateRecord(entity1name, record1Id, stringForTextBox).then(
-																function success(result) {
-																	console.log("Account updated");
-																	// perform operations on record update
-																},
-																function (error) {
-																	console.log(error.message);
-																	// handle error conditions
+															function (results) {
+																let associatedArray = [];
+																for (let i = 0; i < results.entities.length; i++) {
+																	let result = results.entities[i];
+																	let competitorname = result["aLink.name"];
+																	associatedArray.push(competitorname);
 																}
-															);
-															console.log(associatedArray)
-														},
-														// @ts-ignore
-														function (error) {
-															thisCtrl.DisplayError(error, thisCtrl._context.resources.getString("Error Populating Text Column"));
-														});
-													console.log("NNCheckboxes: records were successfully disassociated")
+																let final = associatedArray.join(', ')
+																let outputcol = thisCtrl._OutputTextColumn
+																let stringForTextBox = {}
+																// @ts-ignore
+																stringForTextBox[outputcol] = associatedArray.join(', ')
+																thisCtrl._context.webAPI.updateRecord(entity1name, record1Id, stringForTextBox).then(
+																	function success(result) {
+																		console.log("Account updated");
+																		// perform operations on record update
+																	},
+																	function (error) {
+																		console.log(error.message);
+																		// handle error conditions
+																	}
+																);
+																console.log(associatedArray)
+															},
+															// @ts-ignore
+															function (error) {
+																thisCtrl.DisplayError(error, thisCtrl._context.resources.getString("Error Populating Text Column"));
+															});
+														console.log("NNCheckboxes: records were successfully disassociated")
+													}
 												},
 												// @ts-ignore
 												function (error) {
