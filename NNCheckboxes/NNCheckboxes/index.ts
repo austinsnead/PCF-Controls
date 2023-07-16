@@ -630,7 +630,6 @@ export class NNCheckboxes implements ComponentFramework.StandardControl<IInputs,
 											.then(
 												// @ts-ignore
 												function (result) {
-													console.log("NNCheckboxes: records were successfully associated");
 													const fetchXml = `?fetchXml=<fetch>
 													<entity name="${thisCtrl._NNTableName}">
 													  <attribute name="${thisCtrl._NNTableName}id" />  
