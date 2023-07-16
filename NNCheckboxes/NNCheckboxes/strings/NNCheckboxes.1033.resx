@@ -66,7 +66,7 @@
             Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="NNCheckboxes_Display_Key" xml:space="preserve">
-        <value>Checkbox list</value>
+        <value>Checkbox list (UFG Custom)</value>
     </data>
     <data name="NNCheckboxes_Desc_Key" xml:space="preserve">
         <value>This control renders a list of records from a referential entity as checkboxes. Associated records are checked.</value>
