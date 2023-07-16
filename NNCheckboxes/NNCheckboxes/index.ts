@@ -546,17 +546,49 @@ export class NNCheckboxes implements ComponentFramework.StandardControl<IInputs,
 												// @ts-ignore
 												function (result) {
 													console.log("NNCheckboxes: records were successfully associated");
-													const fetchXml = `<fetch>
+													const fetchXml = `?fetchXml=<fetch>
 													<entity name="${thisCtrl._NNTableName}">
 													  <attribute name="${thisCtrl._NNTableName}id" />  
 													  <filter>
 														<condition attribute="${entity1name}id" operator="eq" value="${record1Id}" />
 													  </filter>
-													  <link-entity name="${entity2name}" from="${entity2name}id" to="${record2Id}" alias="aLink">
-														<attribute name="name" />
+													  <link-entity name="${entity2name}" to="${entity2name}id" from="${entity2name}id" link-type="inner" alias="aLink">
+													  <attribute name="name" /> 
+													  <order attribute="name" />	
 													  </link-entity>
 													</entity>
 												  </fetch>`;
+													// @ts-ignore
+													thisCtrl._context.webAPI.retrieveMultipleRecords(thisCtrl._NNTableName, fetchXml).then(
+														// @ts-ignore
+														function (results) {
+															let associatedArray = [];
+															for (let i = 0; i < results.entities.length; i++) {
+																let result = results.entities[i];
+																let competitorname = result["aLink.name"];
+																associatedArray.push(competitorname);
+															}
+															let final = associatedArray.join(', ')
+															let outputcol = thisCtrl._OutputTextColumn
+															let stringForTextBox = {}
+															// @ts-ignore
+															stringForTextBox[outputcol] = associatedArray.join(', ')
+															thisCtrl._context.webAPI.updateRecord(entity1name, record1Id, stringForTextBox).then(
+																function success(result) {
+																	console.log("Account updated");
+																	// perform operations on record update
+																},
+																function (error) {
+																	console.log(error.message);
+																	// handle error conditions
+																}
+															);
+															console.log(associatedArray)
+														},
+														// @ts-ignore
+														function (error) {
+															thisCtrl.DisplayError(error, thisCtrl._context.resources.getString("Error Populating Text Column"));
+														});
 													console.log(fetchXml)
 												},
 												// @ts-ignore
